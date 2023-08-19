@@ -1,19 +1,83 @@
-import React from 'react';
+import React, { RefObject, createRef } from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { CSSTransition, SwitchTransition } from 'react-transition-group';
+import { RouterProvider, createBrowserRouter, useLocation, useOutlet } from 'react-router-dom';
+import { Toast } from './components';
+import Header from './components/layout/Header';
+import Home from './pages/Home';
+import Chat from './pages/Chat';
+import TestOne from './pages/TestOne';
+import TestTwo from './pages/TestTwo';
+import Kiosk from './pages/Kiosk';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+import styles from './index.module.scss';
+import '~/scss/_reset.scss';
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+export const routes = [
+  { path: '/', name: 'home', element: <Home />, nodeRef: createRef() },
+  { path: '/chat', name: 'Chat', element: <Chat />, nodeRef: createRef() },
+
+  { path: '/toast', name: 'toast', element: <TestOne />, nodeRef: createRef() },
+  {
+    path: '/modal',
+    name: 'modal',
+    element: <TestTwo />,
+    nodeRef: createRef(),
+  },
+  {
+    path: '/kiosk',
+    name: 'kiosk',
+    element: <Kiosk />,
+    nodeRef: createRef(),
+  },
+];
+
+const Root = () => {
+  const location = useLocation();
+  const currentOutlet = useOutlet();
+  const { nodeRef } = routes.find(route => route.path === location.pathname) as { nodeRef: RefObject<HTMLDivElement> };
+
+  if (!nodeRef) return null;
+
+  return (
+    <main className={styles.page}>
+      <Header />
+      <SwitchTransition>
+        <CSSTransition
+          key={location.pathname}
+          nodeRef={nodeRef}
+          timeout={300}
+          classNames={{
+            enter: styles.page_enter,
+            enterActive: styles.page_enter_active,
+            exit: styles.page_exit,
+            exitActive: styles.page_exit_active,
+          }}
+          unmountOnExit
+        >
+          {() => (
+            <div ref={nodeRef} className={styles.content}>
+              {currentOutlet}
+            </div>
+          )}
+        </CSSTransition>
+      </SwitchTransition>
+      <Toast />
+    </main>
+  );
+};
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Root />,
+    children: routes.map(route => ({
+      index: route.path === '/',
+      path: route.path === '/' ? undefined : route.path,
+      element: route.element,
+    })),
+  },
+]);
+
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+root.render(<RouterProvider router={router} />);
