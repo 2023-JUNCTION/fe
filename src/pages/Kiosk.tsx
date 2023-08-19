@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 import html2canvas from 'html2canvas';
+import { useSearchParams } from 'react-router-dom';
 import { API } from '~/api';
 import { Button, toast } from '~/components';
 import { capitalize } from '~/utils';
@@ -32,6 +33,9 @@ const DEFAULT_MENUS = [
 ];
 
 const Kiosk = () => {
+  const [searchParams] = useSearchParams();
+  const isMock = searchParams.get('isMock'); // test
+
   const pageRef = useRef<HTMLDivElement>(null);
   const convertOrderToBase64 = async () => {
     pageRef.current!.style.transform = 'rotate(90deg)';
@@ -68,16 +72,18 @@ const Kiosk = () => {
 
   const handleSubmit = useCallback(async () => {
     try {
-      const png = await convertOrderToBase64();
-      API.Kiosk.postOrders({
-        menus: [
-          {
-            id: 1,
-            count: 2,
-          },
-        ],
-        eslImage: png.replace('data:image/png;base64,', ''),
-      });
+      if (!isMock) {
+        const png = await convertOrderToBase64();
+        API.Kiosk.postOrders({
+          menus: [
+            {
+              id: 1,
+              count: 2,
+            },
+          ],
+          eslImage: png.replace('data:image/png;base64,', ''),
+        });
+      }
       toast.success('Your order has been completed!');
       popEmoji();
       setMenus(DEFAULT_MENUS);
