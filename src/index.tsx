@@ -3,33 +3,12 @@ import ReactDOM from 'react-dom/client';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import { RouterProvider, createBrowserRouter, useLocation, useOutlet } from 'react-router-dom';
 import { Toast } from './components';
-import Home from './pages/Home';
-import Chat from './pages/Chat';
-import TestOne from './pages/TestOne';
-import TestTwo from './pages/TestTwo';
 import Kiosk from './pages/Kiosk';
 
 import styles from './index.module.scss';
 import '~/scss/_reset.scss';
 
-export const routes = [
-  { path: '/', name: 'home', element: <Home />, nodeRef: createRef() },
-  { path: '/chat', name: 'Chat', element: <Chat />, nodeRef: createRef() },
-
-  { path: '/toast', name: 'toast', element: <TestOne />, nodeRef: createRef() },
-  {
-    path: '/modal',
-    name: 'modal',
-    element: <TestTwo />,
-    nodeRef: createRef(),
-  },
-  {
-    path: '/kiosk',
-    name: 'kiosk',
-    element: <Kiosk />,
-    nodeRef: createRef(),
-  },
-];
+export const routes = [{ path: '/', name: 'kiosk', element: <Kiosk />, nodeRef: createRef() }];
 
 const Root = () => {
   const location = useLocation();
