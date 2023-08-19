@@ -42,10 +42,10 @@ const Kiosk = () => {
     const imageFile = canvas.toDataURL('image/png');
     return imageFile;
   };
-  const [orders, setOrders] = useState<MenuType[]>(DEFAULT_MENUS);
+  const [menus, setMenus] = useState<MenuType[]>(DEFAULT_MENUS);
 
   const handleCount = useCallback((id: number, isPlus: boolean) => {
-    setOrders(prev => {
+    setMenus(prev => {
       return prev.reduce<MenuType[]>((acc, cur, index) => {
         if (id === index) {
           return [
@@ -81,16 +81,20 @@ const Kiosk = () => {
           {MENUS.map((item, index) => (
             <div className={styles.menu_item}>
               <div className={styles.title}>{capitalize(item)}</div>
-              <Button className={styles.box} onClick={() => handleCount(index, true)}>
+              <Button
+                className={styles.box}
+                onClick={() => handleCount(index, true)}
+                disabled={menus[index].count >= 5}
+              >
                 <img src={`/${item}.png`} alt={item} width="122px" height="122px" />
               </Button>
               <div className={styles.count}>
-                <Button>
-                  <Minus onClick={() => handleCount(index, false)} />
+                <Button onClick={() => handleCount(index, false)} disabled={menus[index].count < 0}>
+                  <Minus />
                 </Button>
-                <div className={styles.count_text}>{orders[index].count}</div>
-                <Button>
-                  <Plus onClick={() => handleCount(index, true)} />
+                <div className={styles.count_text}>{menus[index].count}</div>
+                <Button onClick={() => handleCount(index, true)}>
+                  <Plus />
                 </Button>
               </div>
             </div>
@@ -100,7 +104,7 @@ const Kiosk = () => {
           className={styles.order_button}
           // onClick={() => setIsOpen(true)}
           onClick={handleSubmit}
-          disabled={orders.every(item => item.count === 0)}
+          disabled={menus.every(item => item.count === 0)}
         >
           Order
         </Button>
@@ -116,22 +120,22 @@ const Kiosk = () => {
           <div>QTY</div>
         </div>
         <div className={styles.content}>
-          {!!orders[1].count && (
+          {!!menus[1].count && (
             <div className={styles.line}>
               <div>Fries</div>
-              <div className={styles.count}>{orders[1].count}</div>
+              <div className={styles.count}>{menus[1].count}</div>
             </div>
           )}
-          {!!orders[0].count && (
+          {!!menus[0].count && (
             <div className={styles.line}>
               <div>Burger</div>
-              <div className={styles.count}>{orders[0].count}</div>
+              <div className={styles.count}>{menus[0].count}</div>
             </div>
           )}
-          {!!orders[2].count && (
+          {!!menus[2].count && (
             <div className={styles.line}>
               <div>Coke</div>
-              <div className={styles.count}>{orders[2].count}</div>
+              <div className={styles.count}>{menus[2].count}</div>
             </div>
           )}
         </div>
