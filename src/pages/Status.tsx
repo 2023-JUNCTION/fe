@@ -181,7 +181,7 @@ const MOCK_DATA = {
 const DoneCard = ({ id, orderMenu, onClick }: OrderResponse & { onClick: () => void }) => {
   return (
     <div className={styles.done_receipt}>
-      <div className={styles.done_receipt_title}>#00{id}</div>
+      <div className={styles.done_receipt_title}>#{String(id).padStart(3, '0')}</div>
       <div className={styles.title_line} />
       <div className={styles.content}>
         {orderMenu.map(item => (
@@ -201,7 +201,7 @@ const DoneCard = ({ id, orderMenu, onClick }: OrderResponse & { onClick: () => v
 const BackOrderCard = ({ id, orderMenu }: OrderResponse) => {
   return (
     <div className={styles.back_order_receipt}>
-      <div className={styles.back_order_receipt_title}>#00{id}</div>
+      <div className={styles.back_order_receipt_title}>#{String(id).padStart(3, '0')}</div>
       <div className={styles.title_line} />
       <div className={styles.content}>
         {orderMenu.map(item => (
@@ -220,7 +220,7 @@ const StatusCard = ({ id, orderMenu, remainTime, onClick }: OrderResponse & { on
   return (
     <div className={styles.status_receipt}>
       <div className={styles.time}>+ {remainTime} mins</div>
-      <div className={styles.status_receipt_title}>#00{id}</div>
+      <div className={styles.status_receipt_title}>#{String(id).padStart(3, '0')}</div>
       <div className={styles.title_line} />
       <div className={styles.content}>
         {orderMenu.map(item => (
@@ -309,6 +309,7 @@ const Status = () => {
         };
         return newOrders;
       });
+      return;
     }
 
     // const response = await API.Status.postOrderComplete(id);
@@ -327,6 +328,7 @@ const Status = () => {
         };
         return newOrders;
       });
+      return;
     }
     toast.error('API 연동 중 입니다.');
   }, []);

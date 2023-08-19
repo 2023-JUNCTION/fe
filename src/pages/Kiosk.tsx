@@ -1,4 +1,5 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import cn from 'classnames';
 import html2canvas from 'html2canvas';
 import { API } from '~/api';
 import { Button, toast } from '~/components';
@@ -74,10 +75,28 @@ const Kiosk = () => {
         eslImage: png.replace('data:image/png;base64,', ''),
       });
       toast.success('Your order has been completed!');
+      setMenus(DEFAULT_MENUS);
     } catch (e) {
       console.error(e);
     }
   }, []);
+
+  const [isToggle, setIsToggle] = useState(false);
+
+  useEffect(() => {
+    setIsToggle(true);
+    setTimeout(() => {
+      setIsToggle(false);
+    }, 500);
+  }, [menus]);
+
+  useEffect(() => {
+    if (isToggle) {
+      pageRef.current!.style.transform = 'rotate(90deg)';
+    } else {
+      pageRef.current!.style.transform = 'rotate(0deg)';
+    }
+  }, [isToggle]);
 
   return (
     <>
@@ -87,7 +106,7 @@ const Kiosk = () => {
             <div className={styles.menu_item} key={item}>
               <div className={styles.title}>{capitalize(item)}</div>
               <Button
-                className={styles.box}
+                className={cn(styles.box, styles.button)}
                 onClick={() => handleCount(index, true)}
                 disabled={menus[index].count >= 5}
               >

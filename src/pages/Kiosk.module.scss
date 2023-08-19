@@ -44,7 +44,19 @@
 
       button {
         background-color: transparent;
+
       }
+
+      .button {
+        transition: all 0.5s; /* 트랜지션은 버튼에 적용 */
+      }
+              
+      .button:hover {
+        color: white;
+        box-shadow: 0 0.5em 0.5em -0.4em $yellow;
+        transform: translateY(-10px);
+      }
+
 
       .count {
         display: flex;
