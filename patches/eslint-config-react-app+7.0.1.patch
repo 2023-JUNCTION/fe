@@ -1,0 +1,13 @@
+diff --git a/node_modules/eslint-config-react-app/base.js b/node_modules/eslint-config-react-app/base.js
+index 6cb8e9e..b3cc260 100644
+--- a/node_modules/eslint-config-react-app/base.js
++++ b/node_modules/eslint-config-react-app/base.js
+@@ -19,8 +19,6 @@ module.exports = {
+ 
+   parser: '@babel/eslint-parser',
+ 
+-  plugins: ['react'],
+-
+   env: {
+     browser: true,
+     commonjs: true,
