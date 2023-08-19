@@ -4,11 +4,15 @@ import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import { RouterProvider, createBrowserRouter, useLocation, useOutlet } from 'react-router-dom';
 import { Toast } from './components';
 import Kiosk from './pages/Kiosk';
+import MobileButton from './pages/MobileButton';
 
 import styles from './index.module.scss';
 import '~/scss/_reset.scss';
 
-export const routes = [{ path: '/', name: 'kiosk', element: <Kiosk />, nodeRef: createRef() }];
+export const routes = [
+  { path: '/', name: 'kiosk', element: <Kiosk />, nodeRef: createRef() },
+  { path: '/button', name: 'button', element: <MobileButton />, nodeRef: createRef() },
+];
 
 const Root = () => {
   const location = useLocation();
