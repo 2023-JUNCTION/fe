@@ -6,6 +6,7 @@ import { Button, toast } from '~/components';
 import { capitalize } from '~/utils';
 import { Line, Minus, Plus } from '~/assets';
 
+import useConfetti from '~/hooks/useConfetti';
 import styles from './Kiosk.module.scss';
 
 const MENUS = ['burger', 'fries', 'coke'];
@@ -43,6 +44,9 @@ const Kiosk = () => {
     const imageFile = canvas.toDataURL('image/png', 0.5);
     return imageFile;
   };
+
+  const { popEmoji } = useConfetti();
+
   const [menus, setMenus] = useState<MenuType[]>(DEFAULT_MENUS);
 
   const handleCount = useCallback((id: number, isPlus: boolean) => {
@@ -75,6 +79,7 @@ const Kiosk = () => {
         eslImage: png.replace('data:image/png;base64,', ''),
       });
       toast.success('Your order has been completed!');
+      popEmoji();
       setMenus(DEFAULT_MENUS);
     } catch (e) {
       console.error(e);
