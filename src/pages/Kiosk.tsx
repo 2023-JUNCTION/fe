@@ -39,7 +39,7 @@ const Kiosk = () => {
       scale: 1,
     });
     pageRef.current!.style.transform = 'rotate(0deg)';
-    const imageFile = canvas.toDataURL('image/png');
+    const imageFile = canvas.toDataURL('image/png', 0.5);
     return imageFile;
   };
   const [menus, setMenus] = useState<MenuType[]>(DEFAULT_MENUS);
