@@ -1,0 +1,52 @@
+.checkbox {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: fit-content;
+  height: 16px;
+  padding: 0;
+  cursor: pointer;
+
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .box_area {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    background-color: white;
+    border: solid 1px black;
+
+    &:hover {
+      opacity: 0.9;
+    }  
+  }
+
+  input {
+    display: none;
+  }
+
+  input:checked ~ .box_area {
+    background-color: black;
+  }
+
+  input:checked ~ .box_area::after {
+    display: block;
+  }
+
+  .label {
+    margin-left: 20px;
+    font-size: 12px;
+    display: flex;
+    height: 100%;
+    align-items: center;
+  }
+}
