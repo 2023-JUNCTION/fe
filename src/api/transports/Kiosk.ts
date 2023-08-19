@@ -1,22 +1,22 @@
 import TransportBase from './TransportBase';
 
 type OrdersRequestType = {
-  orders: {
+  menus: {
     id: number;
     count: number;
   }[];
-  elsImage: string;
+  eslImage: string;
 };
 class Test extends TransportBase {
   public constructor() {
     super('api');
   }
 
-  public postOrders({ orders, elsImage }: OrdersRequestType): Promise<unknown> {
+  public postOrders({ menus, eslImage }: OrdersRequestType): Promise<unknown> {
     return this.http
       .post('/orders', {
-        orders,
-        elsImage,
+        menus,
+        eslImage,
       })
       .then(TransportBase.handleResponse)
       .catch(TransportBase.handleError);

@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import { RouterProvider, createBrowserRouter, useLocation, useOutlet } from 'react-router-dom';
 import { Toast } from './components';
-import Header from './components/layout/Header';
 import Home from './pages/Home';
 import Chat from './pages/Chat';
 import TestOne from './pages/TestOne';
@@ -41,7 +40,6 @@ const Root = () => {
 
   return (
     <main className={styles.page}>
-      <Header />
       <SwitchTransition>
         <CSSTransition
           key={location.pathname}

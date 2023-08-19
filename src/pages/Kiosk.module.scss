@@ -1,0 +1,150 @@
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .menu_area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    margin-top: 110px;
+
+    .menu_item {
+      margin-right: 38px;
+        
+      &:last-child {
+        margin-right: 0;
+      }
+
+      .title {
+        width: 100%;
+        text-align: center;
+        font-size: 20px;
+        font-weight: 700;
+        color: $light-gray;
+        margin-bottom: 20px;
+      }
+
+      .box {
+        width: 220px;
+        height: 220px;
+        border: 1.121px solid $light-gray;
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 22px;
+      }
+
+      button {
+        background-color: transparent;
+      }
+
+      .count {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 63px;
+        margin-top: 14.35px;
+
+        &_text {
+          font-size: 42px;
+          font-weight: 700;
+          color: $white;
+          margin: 0 33px;
+        }
+      }
+    }
+  }
+
+  .order_button {
+    width: 148px;
+    height: 58px;
+    border-radius: 114px;
+    background-color: $yellow;
+    font-size: 28px;
+    font-weight: 600;
+    margin-top: 96.65px;
+  }
+}
+
+.receipt {
+  padding-top: 29px;
+  background-color: $white;
+  width: 122px;
+  height: 221px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  color: #1E1E1E;
+  transform: rotate(0deg);
+  position: fixed;
+  top: 25px;
+  left: 25px;
+
+  &_title {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+
+  &_sub_title {
+    font-size: 8px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.5;
+    margin-bottom: 5px;
+  }
+
+  .space {
+    height: 2px;
+  }
+
+  .row {
+    display: flex;
+    margin: 6px 0;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 8px;
+    font-style: normal;
+    font-weight: 700;
+    width: calc(100% - 20px);
+    padding: 0 10px;
+  }
+
+  .content {
+    margin-top: 2px;
+    display: flex;
+    justify-self: center;
+    align-items: center;
+    width: 100%;
+    flex-direction: column;
+
+    .line {
+      height: 42px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 700;
+      width: calc(100% - 20px);
+      padding: 0 10px;
+
+      .count {
+        font-size: 15px;
+      }
+    }
+  }
+
+  .last_line {
+    position: absolute;
+    bottom: 22px;
+  }
+}
