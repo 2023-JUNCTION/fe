@@ -79,7 +79,7 @@ const Kiosk = () => {
       <div className={styles.container}>
         <div className={styles.menu_area}>
           {MENUS.map((item, index) => (
-            <div className={styles.menu_item}>
+            <div className={styles.menu_item} key={item}>
               <div className={styles.title}>{capitalize(item)}</div>
               <Button
                 className={styles.box}

@@ -5,6 +5,7 @@ import { RouterProvider, createBrowserRouter, useLocation, useOutlet } from 'rea
 import { Toast } from './components';
 import Kiosk from './pages/Kiosk';
 import MobileButton from './pages/MobileButton';
+import Status from './pages/Status';
 
 import styles from './index.module.scss';
 import '~/scss/_reset.scss';
@@ -12,6 +13,7 @@ import '~/scss/_reset.scss';
 export const routes = [
   { path: '/', name: 'kiosk', element: <Kiosk />, nodeRef: createRef() },
   { path: '/button', name: 'button', element: <MobileButton />, nodeRef: createRef() },
+  { path: '/status', name: 'status', element: <Status />, nodeRef: createRef() },
 ];
 
 const Root = () => {

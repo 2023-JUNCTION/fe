@@ -1,23 +1,24 @@
 import TransportBase from './TransportBase';
 
-interface OrderMenuResponse {
+type OrderMenuResponse = {
   id: number;
   menuId: number;
   menuName: string;
   menuCount: number;
-}
+};
 
-interface OrderResponse {
+export type OrderResponse = {
   id: number;
   orderMenu: OrderMenuResponse[];
   done: boolean;
-}
+  remainTime?: number;
+};
 
-interface ReadOrdersResponse {
+type ReadOrdersResponse = {
   orders: OrderResponse[];
-}
+};
 
-class Test extends TransportBase {
+class Status extends TransportBase {
   public constructor() {
     super('api');
   }
@@ -27,4 +28,4 @@ class Test extends TransportBase {
   }
 }
 
-export default new Test();
+export default new Status();
