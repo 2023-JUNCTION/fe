@@ -6,7 +6,7 @@ import { type Swiper as SwiperType } from 'swiper';
 import Header from '~/components/layout/Header';
 import { API } from '~/api';
 import { OrderResponse } from '~/api/transports/Status';
-import { Button } from '~/components';
+import { Button, toast } from '~/components';
 import { ArrowFirst, ArrowSecond, ArrowThird } from '~/assets';
 
 import 'swiper/css';
@@ -243,9 +243,14 @@ const Status = () => {
   const navigate = useNavigate();
 
   const [orders, setOrders] = useState<OrderType>(DEFAULT_DATA);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     if (isMock) {
-      setTimeout(() => setOrders(MOCK_DATA), 2000);
+      setTimeout(() => {
+        setOrders(MOCK_DATA);
+        setIsLoading(false);
+      }, 2000);
     }
   }, [isMock]);
 
@@ -253,6 +258,7 @@ const Status = () => {
     const load = async () => {
       try {
         const response = await API.Status.readOrders();
+        setIsLoading(false);
         // eslint-disable-next-line no-unused-expressions
         response.orders &&
           setOrders(
@@ -285,36 +291,44 @@ const Status = () => {
     // eslint-disable-next-line no-unused-expressions
 
     if (!isMock) {
-      setInterval(() => load(), 3000);
+      setInterval(() => load(), 5000);
     }
   }, []);
   const swiperRef = useRef<SwiperObjectType | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const handleComplete = useCallback((id: number) => {
-    setOrders(prev => {
-      const currentOrder = prev.status.filter(item => item.id === id)[0];
-      const newStatus = [...prev.status.filter(item => item.id !== id), ...prev.backOrder];
-      const newOrders = {
-        done: [currentOrder, ...prev.done],
-        status: newStatus.slice(0, 4) ?? [],
-        backOrder: newStatus.slice(4, newStatus.length) ?? [],
-      };
-      return newOrders;
-    });
+  const handleComplete = useCallback(async (id: number) => {
+    if (isMock) {
+      setOrders(prev => {
+        const currentOrder = prev.status.filter(item => item.id === id)[0];
+        const newStatus = [...prev.status.filter(item => item.id !== id), ...prev.backOrder];
+        const newOrders = {
+          done: [currentOrder, ...prev.done],
+          status: newStatus.slice(0, 4) ?? [],
+          backOrder: newStatus.slice(4, newStatus.length) ?? [],
+        };
+        return newOrders;
+      });
+    }
+
+    // const response = await API.Status.postOrderComplete(id);
+    toast.error('API 연동 중 입니다.');
   }, []);
 
   const handleUndo = useCallback((id: number) => {
-    setOrders(prev => {
-      const currentOrder = prev.done.filter(item => item.id === id)[0];
-      const newStatus = [currentOrder, ...prev.status, ...prev.backOrder];
-      const newOrders = {
-        done: prev.done.filter(item => item.id !== id),
-        status: newStatus.slice(0, 4) ?? [],
-        backOrder: newStatus.slice(4, newStatus.length) ?? [],
-      };
-      return newOrders;
-    });
+    if (isMock) {
+      setOrders(prev => {
+        const currentOrder = prev.done.filter(item => item.id === id)[0];
+        const newStatus = [currentOrder, ...prev.status, ...prev.backOrder];
+        const newOrders = {
+          done: prev.done.filter(item => item.id !== id),
+          status: newStatus.slice(0, 4) ?? [],
+          backOrder: newStatus.slice(4, newStatus.length) ?? [],
+        };
+        return newOrders;
+      });
+    }
+    toast.error('API 연동 중 입니다.');
   }, []);
 
   return (
@@ -342,12 +356,15 @@ const Status = () => {
             <div className={styles.box_container}>
               <div className={styles.title}>Real-time ESL Status</div>
               {orders.status.map(item => (
-                <StatusCard {...item} onClick={() => handleComplete(item.id)} />
+                <StatusCard {...item} onClick={() => handleComplete(item.id)} key={item.id} />
               ))}
               {orders.status.length === 4 ? (
                 <div className={styles.status_receipt_full}>+ {orders.backOrder.length}</div>
               ) : (
-                new Array(5 - orders.status.length).fill(1).map(() => <div className={styles.status_receipt_none} />)
+                new Array(5 - orders.status.length).fill(1).map((item, index) => (
+                  // eslint-disable-next-line react/no-array-index-key
+                  <div key={item + index} className={cn(styles.status_receipt_none, isLoading && styles.active)} />
+                ))
               )}
             </div>
             {orders.backOrder.length > 0 && (

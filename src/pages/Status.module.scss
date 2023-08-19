@@ -305,7 +305,9 @@
   height: 221.456px;
   width: 173.592px;  
 
-  @include skeleton(#3C3B48);
+  &.active {
+    @include skeleton(#3C3B48);
+  }
 }
 
 .status_receipt_full {

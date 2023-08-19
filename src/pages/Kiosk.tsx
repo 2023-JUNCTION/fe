@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import html2canvas from 'html2canvas';
 import { API } from '~/api';
-import { Button } from '~/components';
+import { Button, toast } from '~/components';
 import { capitalize } from '~/utils';
 import { Line, Minus, Plus } from '~/assets';
 
@@ -62,16 +62,21 @@ const Kiosk = () => {
   }, []);
 
   const handleSubmit = useCallback(async () => {
-    const png = await convertOrderToBase64();
-    API.Kiosk.postOrders({
-      menus: [
-        {
-          id: 1,
-          count: 2,
-        },
-      ],
-      eslImage: png.replace('data:image/png;base64,', ''),
-    });
+    try {
+      const png = await convertOrderToBase64();
+      API.Kiosk.postOrders({
+        menus: [
+          {
+            id: 1,
+            count: 2,
+          },
+        ],
+        eslImage: png.replace('data:image/png;base64,', ''),
+      });
+      toast.success('Your order has been completed!');
+    } catch (e) {
+      console.error(e);
+    }
   }, []);
 
   return (
