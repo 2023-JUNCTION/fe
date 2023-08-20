@@ -23,16 +23,6 @@ class Test extends TransportBase {
       .then(TransportBase.handleResponse)
       .catch(TransportBase.handleError);
   }
-
-  public postCompleteOrders(): Promise<unknown> {
-    return this.http
-      .post('/orders/complete', {
-        // TODO: 추후에 정하는 걸로
-        eslInfo: '',
-      })
-      .then(TransportBase.handleResponse)
-      .catch(TransportBase.handleError);
-  }
 }
 
 export default new Test();

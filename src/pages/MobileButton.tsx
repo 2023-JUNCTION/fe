@@ -20,7 +20,7 @@ const MobileButton = () => {
     if (isClicked) {
       setTimeout(() => setIsClicked(false), 1000);
       if (!isMock) {
-        API.Kiosk.postCompleteOrders();
+        API.Status.postOrderComplete(4);
         return;
       }
       toast.error('API 연동 중 입니다.');
