@@ -4,9 +4,10 @@ import cn from 'classnames';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { type Swiper as SwiperType } from 'swiper';
 import Header from '~/components/layout/Header';
+import { Button, toast } from '~/components';
 import { API } from '~/api';
 import { OrderResponse } from '~/api/transports/Status';
-import { Button, toast } from '~/components';
+import { millisToMinutes } from '~/utils';
 import { ArrowFirst, ArrowSecond, ArrowThird } from '~/assets';
 
 import 'swiper/css';
@@ -54,7 +55,7 @@ const MOCK_DATA = {
         },
       ],
       done: true,
-      requiredTime: 15,
+      requiredTime: 15 * 6000,
     },
   ],
   status: [
@@ -75,7 +76,7 @@ const MOCK_DATA = {
         },
       ],
       done: true,
-      requiredTime: 13,
+      requiredTime: 13 * 6000,
     },
     {
       id: 3,
@@ -89,7 +90,7 @@ const MOCK_DATA = {
         },
       ],
       done: true,
-      requiredTime: 20,
+      requiredTime: 20 * 6000,
     },
     {
       id: 4,
@@ -114,7 +115,7 @@ const MOCK_DATA = {
         },
       ],
       done: true,
-      requiredTime: 13,
+      requiredTime: 13 * 6000,
     },
     {
       id: 5,
@@ -139,7 +140,7 @@ const MOCK_DATA = {
         },
       ],
       done: true,
-      requiredTime: 16,
+      requiredTime: 16 * 6000,
     },
   ],
   backOrder: [
@@ -154,7 +155,7 @@ const MOCK_DATA = {
         },
       ],
       done: true,
-      requiredTime: 4,
+      requiredTime: 4 * 6000,
     },
     {
       id: 5,
@@ -173,7 +174,7 @@ const MOCK_DATA = {
         },
       ],
       done: true,
-      requiredTime: 14,
+      requiredTime: 14 * 6000,
     },
   ],
 };
@@ -216,10 +217,10 @@ const BackOrderCard = ({ id, orderMenu }: OrderResponse) => {
   );
 };
 
-const StatusCard = ({ id, orderMenu, requiredTime, onClick }: OrderResponse & { onClick: () => void }) => {
+const StatusCard = ({ id, orderMenu, requiredTime = 0, onClick }: OrderResponse & { onClick: () => void }) => {
   return (
     <div className={styles.status_receipt}>
-      <div className={styles.time}>+ {requiredTime} mins</div>
+      <div className={styles.time}>+ {millisToMinutes(requiredTime)} mins</div>
       <div className={styles.status_receipt_title}>#{String(id).padStart(3, '0')}</div>
       <div className={styles.title_line} />
       <div className={styles.content}>
@@ -291,7 +292,7 @@ const Status = () => {
     // eslint-disable-next-line no-unused-expressions
 
     if (!isMock) {
-      setInterval(() => load(), 5000);
+      setInterval(() => load(), 7000);
     }
   }, []);
   const swiperRef = useRef<SwiperObjectType | null>(null);
@@ -312,8 +313,8 @@ const Status = () => {
       return;
     }
 
-    // const response = await API.Status.postOrderComplete(id);
-    toast.error('API 연동 중 입니다.');
+    const response = await API.Status.postOrderComplete(id);
+    console.log(response);
   }, []);
 
   const handleUndo = useCallback((id: number) => {
