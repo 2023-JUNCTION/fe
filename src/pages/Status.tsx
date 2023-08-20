@@ -54,7 +54,7 @@ const MOCK_DATA = {
         },
       ],
       done: true,
-      remainTime: 15,
+      requiredTime: 15,
     },
   ],
   status: [
@@ -75,7 +75,7 @@ const MOCK_DATA = {
         },
       ],
       done: true,
-      remainTime: 13,
+      requiredTime: 13,
     },
     {
       id: 3,
@@ -85,11 +85,11 @@ const MOCK_DATA = {
           menuId: 0,
           menuName: 'Coke',
           menuCount: 5,
-          remainTime: 12,
+          requiredTime: 12,
         },
       ],
       done: true,
-      remainTime: 20,
+      requiredTime: 20,
     },
     {
       id: 4,
@@ -114,7 +114,7 @@ const MOCK_DATA = {
         },
       ],
       done: true,
-      remainTime: 13,
+      requiredTime: 13,
     },
     {
       id: 5,
@@ -139,7 +139,7 @@ const MOCK_DATA = {
         },
       ],
       done: true,
-      remainTime: 16,
+      requiredTime: 16,
     },
   ],
   backOrder: [
@@ -154,7 +154,7 @@ const MOCK_DATA = {
         },
       ],
       done: true,
-      remainTime: 4,
+      requiredTime: 4,
     },
     {
       id: 5,
@@ -173,7 +173,7 @@ const MOCK_DATA = {
         },
       ],
       done: true,
-      remainTime: 14,
+      requiredTime: 14,
     },
   ],
 };
@@ -216,10 +216,10 @@ const BackOrderCard = ({ id, orderMenu }: OrderResponse) => {
   );
 };
 
-const StatusCard = ({ id, orderMenu, remainTime, onClick }: OrderResponse & { onClick: () => void }) => {
+const StatusCard = ({ id, orderMenu, requiredTime, onClick }: OrderResponse & { onClick: () => void }) => {
   return (
     <div className={styles.status_receipt}>
-      <div className={styles.time}>+ {remainTime} mins</div>
+      <div className={styles.time}>+ {requiredTime} mins</div>
       <div className={styles.status_receipt_title}>#{String(id).padStart(3, '0')}</div>
       <div className={styles.title_line} />
       <div className={styles.content}>
@@ -357,8 +357,9 @@ const Status = () => {
             )}
             <div className={styles.box_container}>
               <div className={styles.title}>Real-time ESL Status</div>
-              {orders.status.map(item => (
-                <StatusCard {...item} onClick={() => handleComplete(item.id)} key={item.id} />
+              {orders.status.map((item, index) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <StatusCard {...item} onClick={() => handleComplete(item.id)} key={`status-${item.id}-${index}`} />
               ))}
               {orders.status.length === 4 ? (
                 <div className={styles.status_receipt_full}>+ {orders.backOrder.length}</div>
@@ -372,8 +373,9 @@ const Status = () => {
             {orders.backOrder.length > 0 && (
               <div className={styles.back_order}>
                 <div className={styles.title}>Back Orders</div>
-                {orders.backOrder.map(item => (
-                  <BackOrderCard {...item} key={item.id} />
+                {orders.backOrder.map((item, index) => (
+                  // eslint-disable-next-line react/no-array-index-key
+                  <BackOrderCard {...item} key={`dot-${item.id}-${index}`} />
                 ))}
               </div>
             )}
@@ -384,8 +386,9 @@ const Status = () => {
             <div className={styles.box}>
               <div className={styles.done_order}>
                 <div className={styles.title}>Done</div>
-                {orders.done.map(item => (
-                  <DoneCard {...item} onClick={() => handleUndo(item.id)} key={item.id} />
+                {orders.done.map((item, index) => (
+                  // eslint-disable-next-line react/no-array-index-key
+                  <DoneCard {...item} onClick={() => handleUndo(item.id)} key={`done-${item.id}-${index}`} />
                 ))}
               </div>
             </div>

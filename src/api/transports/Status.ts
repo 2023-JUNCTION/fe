@@ -11,7 +11,7 @@ export type OrderResponse = {
   id: number;
   orderMenu: OrderMenuResponse[];
   done: boolean;
-  remainTime?: number;
+  requiredTime?: number;
 };
 
 type ReadOrdersResponse = {

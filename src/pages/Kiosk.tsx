@@ -19,15 +19,15 @@ type MenuType = {
 
 const DEFAULT_MENUS = [
   {
-    id: 0,
-    count: 0,
-  },
-  {
     id: 1,
     count: 0,
   },
   {
     id: 2,
+    count: 0,
+  },
+  {
+    id: 3,
     count: 0,
   },
 ];
@@ -56,7 +56,7 @@ const Kiosk = () => {
   const handleCount = useCallback((id: number, isPlus: boolean) => {
     setMenus(prev => {
       return prev.reduce<MenuType[]>((acc, cur, index) => {
-        if (id === index) {
+        if (id - 1 === index) {
           return [
             ...acc,
             {
@@ -74,13 +74,9 @@ const Kiosk = () => {
     try {
       if (!isMock) {
         const png = await convertOrderToBase64();
+
         API.Kiosk.postOrders({
-          menus: [
-            {
-              id: 1,
-              count: 2,
-            },
-          ],
+          menus: menus.filter(item => item.count > 0),
           eslImage: png.replace('data:image/png;base64,', ''),
         });
       }
@@ -90,7 +86,7 @@ const Kiosk = () => {
     } catch (e) {
       console.error(e);
     }
-  }, []);
+  }, [menus]);
 
   const [isToggle, setIsToggle] = useState(false);
 
@@ -118,17 +114,17 @@ const Kiosk = () => {
               <div className={styles.title}>{capitalize(item)}</div>
               <Button
                 className={cn(styles.box, styles.button)}
-                onClick={() => handleCount(index, true)}
+                onClick={() => handleCount(index + 1, true)}
                 disabled={menus[index].count >= 5}
               >
                 <img src={`/${item}.png`} alt={item} width="122px" height="122px" />
               </Button>
               <div className={styles.count}>
-                <Button onClick={() => handleCount(index, false)} disabled={menus[index].count < 0}>
+                <Button onClick={() => handleCount(index + 1, false)} disabled={menus[index].count < 0}>
                   <Minus />
                 </Button>
                 <div className={styles.count_text}>{menus[index].count}</div>
-                <Button onClick={() => handleCount(index, true)}>
+                <Button onClick={() => handleCount(index + 1, true)}>
                   <Plus />
                 </Button>
               </div>
