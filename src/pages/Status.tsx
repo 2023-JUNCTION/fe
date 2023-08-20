@@ -373,7 +373,7 @@ const Status = () => {
               <div className={styles.back_order}>
                 <div className={styles.title}>Back Orders</div>
                 {orders.backOrder.map(item => (
-                  <BackOrderCard {...item} />
+                  <BackOrderCard {...item} key={item.id} />
                 ))}
               </div>
             )}
@@ -385,7 +385,7 @@ const Status = () => {
               <div className={styles.done_order}>
                 <div className={styles.title}>Done</div>
                 {orders.done.map(item => (
-                  <DoneCard {...item} onClick={() => handleUndo(item.id)} />
+                  <DoneCard {...item} onClick={() => handleUndo(item.id)} key={item.id} />
                 ))}
               </div>
             </div>

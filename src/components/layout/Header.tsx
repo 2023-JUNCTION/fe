@@ -16,7 +16,7 @@ const Header = () => {
       <nav className={cn(styles.navigation, styles.navigation_small)}>
         <ul>
           {['Order Status', 'Analysis', 'Manage'].map(item => (
-            <Button className={styles.button} onClick={() => setCurrentPage(item)}>
+            <Button className={styles.button} onClick={() => setCurrentPage(item)} key={item}>
               <span className={cn(item === currentPage && styles.active)}>{item}</span>
             </Button>
           ))}

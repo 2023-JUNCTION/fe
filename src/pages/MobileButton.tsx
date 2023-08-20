@@ -1,11 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import { Button } from '~/components';
-
+import { useSearchParams } from 'react-router-dom';
+import { Button, toast } from '~/components';
 import { API } from '~/api';
+
 import styles from './MobileButton.module.scss';
 
 const MobileButton = () => {
+  const [searchParams] = useSearchParams();
+  const isMock = searchParams.get('isMock'); // test
+
   const [isClicked, setIsClicked] = useState(false);
 
   const handleClickButton = useCallback(() => {
@@ -15,7 +19,11 @@ const MobileButton = () => {
   useEffect(() => {
     if (isClicked) {
       setTimeout(() => setIsClicked(false), 1000);
-      API.Kiosk.postCompleteOrders();
+      if (!isMock) {
+        API.Kiosk.postCompleteOrders();
+        return;
+      }
+      toast.error('API 연동 중 입니다.');
     }
   }, [isClicked]);
 

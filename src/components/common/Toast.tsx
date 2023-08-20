@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import ToastControl, { ToastItem } from '~/utils/ToastControl';
-import { Close, Error } from '~/assets';
 
 import styles from './Toast.module.scss';
 
@@ -43,28 +42,8 @@ const ToastBar = ({ toastItem, onRemoveToastItem, height, delay }: ToastBarProps
     };
   }, [toastItem, onRemoveToastItem, height, delay]);
 
-  const success = (
-    <button type="button" onClick={() => onRemoveToastItem(toastItem.id)}>
-      <Close />
-    </button>
-  );
-
-  const error = (
-    <button type="button" onClick={() => onRemoveToastItem(toastItem.id)}>
-      <Error />
-    </button>
-  );
-
   return (
     <div ref={toastBarElement} role={toastItem.role} className={styles.toast_bar}>
-      <div className={styles.icon}>
-        {
-          {
-            success,
-            error,
-          }[toastItem.type]
-        }
-      </div>
       {toastItem.message}
     </div>
   );
