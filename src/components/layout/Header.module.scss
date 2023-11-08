@@ -1,0 +1,54 @@
+.header {
+  top: 0;
+  height: 81px;
+  width: calc(100% - 80px);
+  margin: 0 48px 0 24px;
+  z-index: $z-index-min;
+  border-bottom: 1px solid black;
+  background-color: transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 1440px;
+  position: absolute;
+  
+  .logo {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 500;
+    color: $gray;
+    width: 400px;
+  }
+
+  .navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    height: 40px;
+    
+    ul {
+      display: flex;
+      justify-content: space-around;
+      font-size: 13px;
+      font-weight: 600;
+      gap: 58px;
+
+      a {
+        color: $gray;
+      }
+
+      .button {
+        background-color: transparent;
+      }
+
+      .active {
+        color: $white;
+        text-decoration: underline;
+        text-decoration-color: $yellow;
+        text-underline-offset: 4px;
+      }
+    }
+  }
+}
